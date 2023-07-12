@@ -13,6 +13,7 @@ export default defineConfig({
     openMode: 1
   },
   env: {
-    baseUrl: "http://localhost:3000"
+    baseUrl: "http://localhost:3000",
+    apiToken: "1e4e2224430117b4c8ccc461b5237843"
   },
 });
