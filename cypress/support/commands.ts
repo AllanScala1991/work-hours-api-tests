@@ -1,37 +1,29 @@
 /// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+interface CreateCompany {
+    name: string,
+	cnpj: string,
+	email: string,
+	phone: string,
+	address: string,
+	username: string,
+	password: string
+}
+
+Cypress.Commands.add('createCompany', (payload:CreateCompany) => {
+    cy.request({
+        url: `${Cypress.env("baseUrl")}/company`,
+        method: "POST",
+        headers: {
+            "api_token": Cypress.env("apiToken")
+        },
+        body: payload
+    }).then(res => {
+        return cy.wrap(res.body.data.id)
+    })
+})
+
+declare namespace Cypress {
+    interface Chainable<Subject> {
+        createCompany(payload:CreateCompany);
+    }
+}

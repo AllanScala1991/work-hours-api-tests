@@ -9,8 +9,8 @@ export default defineConfig({
   video: false,
   screenshotOnRunFailure: false,
   retries: {
-    runMode: 1,
-    openMode: 1
+    runMode: 0,
+    openMode: 0
   },
   env: {
     baseUrl: "http://localhost:3000",
